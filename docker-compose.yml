@@ -2,17 +2,22 @@ version: '3.8'
 
 services:
   n8n:
-    image: n8nio/n8n:latest
+    image: n8nio/n8n:latest       
+    container_name: n8n-instance
     environment:
-      # SQLite is default, so you don't need DB_TYPE unless customizing
-      GENERIC_TIMEZONE: UTC
-      N8N_HOST: 0.0.0.0
-      N8N_PORT: 5678
-      N8N_BASIC_AUTH_ACTIVE: "true"
-      N8N_BASIC_AUTH_USER: ${N8N_USER}
-      N8N_BASIC_AUTH_PASSWORD: ${N8N_PASSWORD}
-      # # optional: for webhooks/config
-      # WEBHOOK_URL: ${WEBHOOK_URL}
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin            
+      - N8N_BASIC_AUTH_PASSWORD=passwordtest123
+      - N8N_PERSONALIZATION_ENABLED=false
+      - N8N_DIAGNOSTICS_ENABLED=false
+      - WEBHOOK_URL=http://localhost:5678/    
+      - PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+      - N8N_SKIP_WEBHOOK_DEREGISTRATION_SHUTDOWN=true
+      - N8N_DISABLE_NODES=@n8nio/n8n-nodes-playwright
+      
     ports:
       - "5678:5678"
     volumes:
