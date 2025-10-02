@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    environment:
+      # SQLite is default, so you don't need DB_TYPE unless customizing
+      GENERIC_TIMEZONE: UTC
+      N8N_HOST: 0.0.0.0
+      N8N_PORT: 5678
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_USER}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_PASSWORD}
+      # # optional: for webhooks/config
+      # WEBHOOK_URL: ${WEBHOOK_URL}
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
+
+volumes:
+  n8n_data:
